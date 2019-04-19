@@ -13,7 +13,7 @@ import UIKit
 public extension WhatsNewViewController {
     
     /// The CompletionButton
-    struct CompletionButton: Equatable {
+    struct CompletionButton {
         
         /// The Title
         public var title: String
@@ -42,6 +42,9 @@ public extension WhatsNewViewController {
         /// The Insets
         public var insets: UIEdgeInsets
         
+        /// The customization closure
+        public var customization: ((UIButton) -> Void)?
+        
         /// Default initializer
         ///
         /// - Parameters:
@@ -54,6 +57,7 @@ public extension WhatsNewViewController {
         ///   - cornerRadius: The corner radius. Default value `8.0`
         ///   - animation: The Animation. Default value `nil`
         ///   - insets: The UIEdgeInsets. Default value `top: 5, left: 20, bottom: 25, right: 20`
+        ///   - customization: The customization closure. Default value `nil`
         public init(title: String = "Continue",
                     action: Action = .dismiss,
                     hapticFeedback: HapticFeedback? = nil,
@@ -62,7 +66,8 @@ public extension WhatsNewViewController {
                     titleColor: UIColor = .white,
                     cornerRadius: CGFloat = 8.0,
                     animation: Animation? = nil,
-                    insets: UIEdgeInsets = .init(top: 5, left: 20, bottom: 25, right: 20)) {
+                    insets: UIEdgeInsets = .init(top: 5, left: 20, bottom: 25, right: 20),
+                    customization: ((UIButton) -> Void)? = nil) {
             self.title = title
             self.action = action
             self.hapticFeedback = hapticFeedback
@@ -72,7 +77,32 @@ public extension WhatsNewViewController {
             self.cornerRadius = cornerRadius
             self.animation = animation
             self.insets = insets
+            self.customization = customization
         }
+    }
+    
+}
+
+// MARK: - Equatable
+
+extension WhatsNewViewController.CompletionButton: Equatable {
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: WhatsNewViewController.CompletionButton,
+                           rhs: WhatsNewViewController.CompletionButton) -> Bool {
+        return lhs.title == rhs.title
+            && lhs.action == rhs.action
+            && lhs.hapticFeedback == rhs.hapticFeedback
+            && lhs.backgroundColor == rhs.backgroundColor
+            && lhs.titleFont == rhs.titleFont
+            && lhs.titleColor == rhs.titleColor
+            && lhs.cornerRadius == rhs.cornerRadius
+            && lhs.animation == rhs.animation
+            && lhs.insets == rhs.insets
     }
     
 }

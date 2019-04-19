@@ -13,7 +13,7 @@ import UIKit
 public extension WhatsNewViewController {
     
     /// The DetailButton
-    struct DetailButton: Equatable {
+    struct DetailButton {
         
         /// The Title
         public var title: String
@@ -36,6 +36,9 @@ public extension WhatsNewViewController {
         /// The Bottom Layout Offset
         public var bottomOffset: CGFloat
         
+        /// The customization closure
+        public var customization: ((UIButton) -> Void)?
+        
         /// Default initializer
         ///
         /// - Parameters:
@@ -46,13 +49,15 @@ public extension WhatsNewViewController {
         ///   - titleColor: The title color. Default value `.whatsNewKitBlue`
         ///   - animation: The Animation. Default value `nil`
         ///   - bottomOffset: The Bottom Layout Offset. Default value `10`
+        ///   - customization: The customization closure. Default value `nil`
         public init(title: String,
                     action: Action,
                     hapticFeedback: HapticFeedback? = nil,
                     titleFont: UIFont = .systemFont(ofSize: 17),
                     titleColor: UIColor = .whatsNewKitBlue,
                     animation: Animation? = nil,
-                    bottomOffset: CGFloat = 10) {
+                    bottomOffset: CGFloat = 10,
+                    customization: ((UIButton) -> Void)? = nil) {
             self.title = title
             self.action = action
             self.hapticFeedback = hapticFeedback
@@ -60,8 +65,31 @@ public extension WhatsNewViewController {
             self.titleColor = titleColor
             self.animation = animation
             self.bottomOffset = bottomOffset
+            self.customization = customization
         }
         
+    }
+    
+}
+
+// MARK: - Equatable
+
+extension WhatsNewViewController.DetailButton: Equatable {
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: WhatsNewViewController.DetailButton,
+                           rhs: WhatsNewViewController.DetailButton) -> Bool {
+        return lhs.title == rhs.title
+            && lhs.action == rhs.action
+            && lhs.hapticFeedback == rhs.hapticFeedback
+            && lhs.titleFont == rhs.titleFont
+            && lhs.titleColor == rhs.titleColor
+            && lhs.animation == rhs.animation
+            && lhs.bottomOffset == rhs.bottomOffset
     }
     
 }
@@ -85,6 +113,10 @@ public extension WhatsNewViewController.DetailButton {
 extension WhatsNewViewController.DetailButton.Action: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
     public static func == (lhs: WhatsNewViewController.DetailButton.Action,
                            rhs: WhatsNewViewController.DetailButton.Action) -> Bool {
         switch (lhs, rhs) {

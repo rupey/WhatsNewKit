@@ -96,6 +96,8 @@ extension WhatsNewButtonViewController.CompletionButton {
             action: #selector(self.didTouchUpInside),
             for: .touchUpInside
         )
+        // Customize Button
+        completionButton.customization?(self)
     }
     
 }

@@ -72,6 +72,8 @@ extension WhatsNewButtonViewController.DetailButton {
         )
         // Set font
         self.titleLabel?.font = detailButton?.titleFont
+        // Customize Button
+        detailButton?.customization?(self)
     }
     
 }
